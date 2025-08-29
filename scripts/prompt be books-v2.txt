@@ -1,0 +1,255 @@
+> **Antecedente**: Tengo una **API RESTful en PHP/PostgreSQL** ya funcionando y publicada (ejemplo: [https://neophpgsql4.onrender.com](https://neophpgsql4.onrender.com)), y ahora necesito crear una **versión moderna y escalable en Python**, diseñada para ejecutarse como **Web Service en [Render](https://render.com)**.
+el direcotorio actual tiene su codigo 
+>
+> La nueva API debe gestionar el recurso `Book` con operaciones **CRUD completas**, **paginación**, **búsqueda textual**, **filtrado avanzado** y **respuestas estandarizadas en JSON**. Debe conectarse a una base de datos **PostgreSQL local en desarrollo** y ser compatible con entornos de producción (como Neon.tech o Render DB) mediante variables de entorno.
+>
+> El código debe ser **stateless**, compatible con arquitecturas sin estado (serverless), y seguir buenas prácticas de seguridad, rendimiento, modularidad y mantenibilidad.
+
+---
+
+### 🔐 **Credenciales de conexión (entorno local)**
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=library
+DB_USER=postgres
+DB_PASSWORD=1
+DB_SSLMODE=disable
+APP_ENV=development
+APP_DEBUG=true
+```
+
+> ⚠️ En producción (Render), estas variables se configurarán en el panel de entorno, **no en un archivo físico**.
+
+---
+
+### 📦 **Modelo de Datos: `Book` (Tabla `libros`)**
+
+```sql
+CREATE TABLE "libros" (
+  "id_libro" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  "name" VARCHAR(255) NOT NULL,
+  "author" VARCHAR(255) NOT NULL,
+  "price" NUMERIC(10,2) NOT NULL,
+  "description" TEXT,
+  "created_at" TIMESTAMP DEFAULT now(),
+  "updated_at" TIMESTAMP DEFAULT now(),
+  "id_user" UUID,
+  "is_deleted" BOOLEAN DEFAULT false,
+  CONSTRAINT "fk_libros_usuario" 
+    FOREIGN KEY ("id_user") 
+    REFERENCES "usuarios"("id_user") 
+    ON DELETE SET NULL
+);
+```
+
+> ✅ Soporta **soft delete** (`is_deleted`).  
+> ✅ `id_user` es opcional.  
+> ✅ Todos los UUIDs se manejan como strings en Python.
+
+---
+
+### 🌐 **Endpoints Requeridos**
+
+| Método | Ruta | Descripción |
+|-------|------|-------------|
+| `GET` | `/api/v1/health` | Estado de la API |
+| `GET` | `/api/v1/books` | Listado con paginación, búsqueda (`q`), y filtros (`min_price`, `max_price`, `author`) |
+| `GET` | `/api/v1/books/{id}` | Obtener libro por UUID |
+| `POST` | `/api/v1/books` | Crear libro (validaciones de entrada) |
+| `PUT` | `/api/v1/books/{id}` | Actualizar libro (campos permitidos) |
+| `DELETE` | `/api/v1/books/{id}` | Soft delete (`is_deleted = true`) |
+
+#### Ejemplo de respuesta exitosa
+```json
+{
+  "success": true,
+  "data": [...],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 150,
+    "total_pages": 15
+  }
+}
+```
+
+#### Ejemplo de error
+```json
+{
+  "success": false,
+  "error": "Book not found",
+  "code": 404
+}
+```
+
+---
+
+### 🐍 **Tecnologías y Herramientas**
+
+| Capa | Tecnología recomendada |
+|------|------------------------|
+| **Framework** | FastAPI (recomendado por su velocidad, Pydantic y soporte ASGI) |
+| **Base de datos** | PostgreSQL (local o en la nube: Neon.tech o Render DB) |
+| **Conexión BD** | `SQLAlchemy 2.0` + `asyncpg` (modo asíncrono) o `psycopg2` (modo síncrono) |
+| **Validación** | `Pydantic` (esquemas de entrada/salida) |
+| **UUIDs** | `uuid` (librería estándar de Python) |
+| **Variables de entorno** | `python-dotenv` |
+| **Zona horaria** | UTC (`from datetime import datetime, timezone`) |
+| **Documentación** | Swagger UI / Redoc (FastAPI lo incluye por defecto) |
+
+---
+
+### 📁 **Estructura del Proyecto (Estándar y Escalable)**
+
+```
+/
+├── api/                      # Endpoints
+│   ├── health.py
+│   └── books.py
+├── controllers/             # Lógica de negocio
+│   └── book_controller.py
+├── models/                  # Modelos SQLAlchemy
+│   └── book_model.py
+├── schemas/                 # Esquemas Pydantic
+│   └── book_schema.py
+├── config/                  # Configuración
+│   ├── database.py          # Conexión asíncrona a PostgreSQL
+│   └── settings.py          # Carga de variables de entorno
+├── scripts/                 # Scripts de BD
+│   ├── create_tables.sql
+│   └── seed_data.py
+├── .env
+├── .env.example
+├── .gitignore
+├── Dockerfile
+├── docker-compose.yml       # Para desarrollo local (API + PostgreSQL)
+├── requirements.txt         # Dependencias
+├── render.yaml              # Despliegue automático en Render
+├── main.py                  # Punto de entrada
+└── README.md
+```
+
+---
+
+### 🐳 **Docker: Construcción y Ejecución del Contenedor**
+
+#### 1. Crear la imagen Docker
+
+```bash
+docker build -t books-api .
+```
+
+#### 2. Ejecutar el contenedor (modo desarrollo)
+
+```bash
+docker run -d -p 8000:8000 books-api
+```
+
+> Accede a la API en: `http://localhost:8000/api/v1/health`  
+> Accede a la documentación en: `http://localhost:8000/docs`
+
+#### 3. Ejecutar con variables de entorno
+
+```bash
+docker run -d \
+  -p 8000:8000 \
+  -e DB_HOST=localhost \
+  -e DB_PORT=5432 \
+  -e DB_NAME=library \
+  -e DB_USER=postgres \
+  -e DB_PASSWORD=1 \
+  -e DB_SSLMODE=disable \
+  books-api
+```
+
+#### 4. Comandos útiles de Docker
+
+```bash
+# Listar contenedores
+docker ps
+
+# Ver logs
+docker logs <container_id>
+
+# Detener contenedor
+docker stop <container_id>
+
+# Eliminar contenedor
+docker rm <container_id>
+
+# Listar imágenes
+docker image ls
+
+# Eliminar imagen
+docker rmi books-api
+```
+
+---
+
+### ☁️ **Despliegue en Render**
+
+#### `render.yaml` (configuración automática)
+
+```yaml
+services:
+  - type: web
+    name: python-book-api
+    runtime: docker
+    envVars:
+      - key: DB_HOST
+        value: localhost
+      - key: DB_PORT
+        value: 5432
+      - key: DB_NAME
+        value: library
+      - key: DB_USER
+        value: postgres
+      - key: DB_PASSWORD
+        value: 1
+      - key: DB_SSLMODE
+        value: disable
+      - key: APP_ENV
+        value: production
+    plan: free
+```
+
+> ✅ Render ejecutará automáticamente `docker build` y `docker run` usando el `Dockerfile` y `render.yaml`.  
+> ✅ El puerto debe ser `10000` si se usa `render.yaml` (ajusta el `CMD` en el Dockerfile).
+
+---
+
+### 📦 **Entrega Esperada**
+
+- ✅ Código modular, limpio, con comentarios y manejo de errores.
+- ✅ Compatible con Python 3.9+.
+- ✅ Funciona localmente con `docker-compose up`.
+- ✅ Listo para desplegar en Render con `render.yaml`.
+- ✅ Incluye `.gitignore` (ignora `.env`, `__pycache__`, etc.).
+- ✅ `README.md` con:
+  - Guía de instalación (`pip install -r requirements.txt`)
+  - Cómo correr localmente (`uvicorn main:app --reload`)
+  - Endpoints y ejemplos con `curl`
+  - Variables de entorno
+  - Instrucciones para despliegue en Render
+- ✅ Ejemplos de uso:
+  ```bash
+  curl -X GET "http://localhost:8000/api/v1/books?page=1&limit=5&q=sabato"
+  curl -X POST "http://localhost:8000/api/v1/books" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "Rayuela",
+      "author": "Julio Cortázar",
+      "price": 22.50,
+      "description": "Una novela experimental única."
+    }'
+  ```
+
+---
+
+### 🎯 **Objetivo Final**
+
+Crear una **API robusta, moderna y lista para producción**, que sea el reemplazo natural de la versión en PHP, con mejoras en rendimiento, claridad y escalabilidad, usando el ecosistema de Python, PostgreSQL y Render.
+
+Ideal para integrar con frontends, móviles o microservicios, y escalable a millones de peticiones gracias a FastAPI y Render.

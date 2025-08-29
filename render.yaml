@@ -1,0 +1,53 @@
+services:
+  - type: web
+    name: python-books-api
+    runtime: docker
+    plan: free
+    branch: main
+    buildCommand: docker build -t books-api .
+    startCommand: docker run -p 10000:10000 books-api
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: DB_HOST
+        fromService:
+          type: pserv
+          name: books-postgres
+          property: host
+      - key: DB_PORT
+        fromService:
+          type: pserv
+          name: books-postgres
+          property: port
+      - key: DB_NAME
+        fromService:
+          type: pserv
+          name: books-postgres
+          property: database
+      - key: DB_USER
+        fromService:
+          type: pserv
+          name: books-postgres
+          property: user
+      - key: DB_PASSWORD
+        fromService:
+          type: pserv
+          name: books-postgres
+          property: password
+      - key: DB_SSLMODE
+        value: require
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+
+  # Optional: PostgreSQL database service in Render
+  # Uncomment if you want to use Render's PostgreSQL instead of Neon.tech
+  # - type: pserv
+  #   name: books-postgres
+  #   plan: free
+  #   env: postgresql
+  #   disk:
+  #     name: books-db
+  #     mountPath: /var/lib/postgresql/data
+  #     sizeGB: 1

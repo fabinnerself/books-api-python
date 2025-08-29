@@ -1,0 +1,77 @@
+{
+    "success": true,
+    "data": [
+        {
+            "name": "libro mod1",
+            "author": "string mod1",
+            "price": "1.00",
+            "description": "string mod1",
+            "id_user": "ebfed956-b089-4961-8478-c9d5e06fd47e",
+            "id_libro": "5e4e5af6-67e0-4959-a398-69afedf17f88",
+            "is_deleted": false,
+            "created_at": "2025-08-27T23:06:51.479058",
+            "updated_at": "2025-08-27T23:06:51.479058"
+        },
+        {
+            "name": "El amor en los tiempos del cólera",
+            "author": "Gabriel García Márquez",
+            "price": "25.50",
+            "description": "Una novela emblemática del realismo mágico latinoamericano.",
+            "id_user": "5796f355-6124-49e4-8302-02bf26f73e85",
+            "id_libro": "088b67fe-3b4e-4fc6-836e-a31567e5e401",
+            "is_deleted": false,
+            "created_at": "2025-08-26T15:15:08.534923",
+            "updated_at": "2025-08-26T15:15:08.534923"
+        },
+        {
+            "name": "Cien años de soledad",
+            "author": "Gabriel García Márquez",
+            "price": "30.00",
+            "description": "La historia de la familia Buendía en Macondo.",
+            "id_user": "ebfed956-b089-4961-8478-c9d5e06fd47e",
+            "id_libro": "c94c8161-7fd8-4340-902e-7bd1f0beec33",
+            "is_deleted": false,
+            "created_at": "2025-08-26T15:15:08.534923",
+            "updated_at": "2025-08-26T15:15:08.534923"
+        },
+        {
+            "name": "La sombra del viento",
+            "author": "Carlos Ruiz Zafón",
+            "price": "22.00",
+            "description": "Una misteriosa historia en el Barrio Gótico de Barcelona.",
+            "id_user": "a049e655-a240-4389-a18e-433c16e80bbd",
+            "id_libro": "8f7542de-f6cd-4812-9dae-3b7cd62b77fd",
+            "is_deleted": false,
+            "created_at": "2025-08-26T15:15:08.534923",
+            "updated_at": "2025-08-26T15:15:08.534923"
+        },
+        {
+            "name": "Rayuela",
+            "author": "Julio Cortázar",
+            "price": "18.75",
+            "description": "Una novela experimental que invita al lector a elegir su orden.",
+            "id_user": "16b49d16-2bfe-434e-a717-b924bdd8a9e4",
+            "id_libro": "2d08ddc4-47bd-4186-b491-8b3d2e926d27",
+            "is_deleted": false,
+            "created_at": "2025-08-26T15:15:08.534923",
+            "updated_at": "2025-08-26T15:15:08.534923"
+        },
+        {
+            "name": "El túnel",
+            "author": "Ernesto Sabato",
+            "price": "15.90",
+            "description": "Una profunda exploración de la mente de un asesino.",
+            "id_user": "1b4129bd-2bbc-4999-a0d5-82d3fc3095a4",
+            "id_libro": "a53933cd-4cf7-4ddb-8f6b-f9556a1a8793",
+            "is_deleted": false,
+            "created_at": "2025-08-26T15:15:08.534923",
+            "updated_at": "2025-08-26T15:15:08.534923"
+        }
+    ],
+    "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 6,
+        "total_pages": 1
+    }
+}

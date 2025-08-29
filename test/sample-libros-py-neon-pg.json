@@ -1,0 +1,77 @@
+{
+    "success": true,
+    "data": [
+        {
+            "name": "La llamada de Cthulhu",
+            "author": "H.P. Lovecraft",
+            "price": "12.99",
+            "description": "Uno de los relatos más icónicos del ciclo de Cthulhu, donde un investigador descubre una conspiración global relacionada con una entidad cósmica dormida en las profundidades del océano.",
+            "id_user": "262786f6-a6bf-4249-a709-4229be7c39f1",
+            "id_libro": "550e8400-e29b-41d4-a716-446655440000",
+            "is_deleted": false,
+            "created_at": "2025-08-29T14:40:21.693046",
+            "updated_at": "2025-08-29T14:40:21.693046"
+        },
+        {
+            "name": "En las montañas de la locura",
+            "author": "H.P. Lovecraft",
+            "price": "18.50",
+            "description": "Una expedición científica a la Antártida descubre ruinas antiguas y una raza alienígena prehumana conocida como los Antiguos, desencadenando horrores cósmicos más allá de la comprensión humana.",
+            "id_user": "262786f6-a6bf-4249-a709-4229be7c39f1",
+            "id_libro": "550e8400-e29b-41d4-a716-446655440001",
+            "is_deleted": false,
+            "created_at": "2025-08-29T14:40:21.693046",
+            "updated_at": "2025-08-29T14:40:21.693046"
+        },
+        {
+            "name": "El color que cayó del cielo",
+            "author": "H.P. Lovecraft",
+            "price": "9.99",
+            "description": "Un meteorito impacta en una granja de Illinois, trayendo consigo una sustancia viviente y mutante que corrompe todo lo que toca, generando terror y descomposición cósmica.",
+            "id_user": "262786f6-a6bf-4249-a709-4229be7c39f1",
+            "id_libro": "550e8400-e29b-41d4-a716-446655440002",
+            "is_deleted": false,
+            "created_at": "2025-08-29T14:40:21.693046",
+            "updated_at": "2025-08-29T14:40:21.693046"
+        },
+        {
+            "name": "La sombra sobre Innsmouth",
+            "author": "H.P. Lovecraft",
+            "price": "14.75",
+            "description": "Un estudiante investiga el pueblo pesquero de Innsmouth, donde los habitantes practican cultos a dioses marinos y se aparean con criaturas anfibias del mito de Dagon.",
+            "id_user": "262786f6-a6bf-4249-a709-4229be7c39f1",
+            "id_libro": "550e8400-e29b-41d4-a716-446655440003",
+            "is_deleted": false,
+            "created_at": "2025-08-29T14:40:21.693046",
+            "updated_at": "2025-08-29T14:40:21.693046"
+        },
+        {
+            "name": "El caso de Charles Dexter Ward",
+            "author": "H.P. Lovecraft",
+            "price": "16.20",
+            "description": "Un joven revive a su antepasado, un nigromante y alquimista del siglo XVIII, desatando una oscura conspiración de posesión, asesinato y resurrección en Providence.",
+            "id_user": "262786f6-a6bf-4249-a709-4229be7c39f1",
+            "id_libro": "550e8400-e29b-41d4-a716-446655440004",
+            "is_deleted": false,
+            "created_at": "2025-08-29T14:40:21.693046",
+            "updated_at": "2025-08-29T14:40:21.693046"
+        },
+        {
+            "name": "libro modificacion",
+            "author": "string mod1",
+            "price": "1.00",
+            "description": "string mod1",
+            "id_user": "262786f6-a6bf-4249-a709-4229be7c39f1",
+            "id_libro": "0b648f6d-17f0-425d-a3d8-d0a9b33e8dcd",
+            "is_deleted": false,
+            "created_at": "2025-08-28T03:50:16.150205",
+            "updated_at": "2025-08-28T03:50:16.150205"
+        }
+    ],
+    "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 6,
+        "total_pages": 1
+    }
+}
