@@ -2,6 +2,11 @@
 
 Una API RESTful moderna y escalable para gestión de libros, desarrollada con FastAPI, PostgreSQL y diseñada para ejecutarse como Web Service en Render.
 
+🔗 Rutas disponibles
+Recurso	URL Base
+Libros	https://books-api-python.onrender.com/api/v1/books/
+
+
 ## 🚀 Características
 
 - ✅ **CRUD completo** para libros
